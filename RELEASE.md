@@ -37,6 +37,13 @@ This document outlines the release process for Pizza Express version 1.0.0.
 
 ## Pending Steps for Master Deployment
 
+### ⚠️ TAG PUSH REQUIRED
+
+The `dev-1` tag has been created locally but needs to be pushed to the remote repository:
+```bash
+git push origin dev-1
+```
+
 ### ⚠️ APPROVAL REQUIRED
 
 **Merge to master branch requires approval from: יונתן דוד נתן (Jonathan David Nathan)**
@@ -67,7 +74,8 @@ node server.js
 
 ## Tags
 
-- `dev-1`: Development deployment tag (current branch)
+- `dev-1`: Development deployment tag (created locally, needs to be pushed by repository owner)
+  - Command to push tag: `git push origin dev-1`
 - `ערסא-1.0.0`: Existing ARSA 1.0.0 tag on master branch
 
 ## Release Notes
@@ -78,6 +86,14 @@ This release consolidates all development work into version 1.0.0, including:
 - Comprehensive test suite
 - Documentation and seed configurations
 - AI agent guidelines and development workflows
+
+### Security Considerations
+
+⚠️ **Note**: The following dependencies have known security vulnerabilities and should be upgraded in a future release:
+- Express.js: Current version ^4.13.3 (from 2015) - Consider upgrading to ^4.17.0 or later
+- Mocha: Current version ^2.3.3 (from 2015) - Consider upgrading to ^8.0.0 or later
+
+These are pre-existing conditions and not introduced by this release preparation.
 
 ---
 
