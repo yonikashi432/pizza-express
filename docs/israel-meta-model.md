@@ -152,7 +152,6 @@ When working with the IsraelMetaModel:
 
 ## Version Information
 
-- **Created**: 2025-11-22
 - **Format**: YAML + Markdown Documentation
 - **Location**: `/docs/israel-meta-model.yaml` (schema), `/docs/israel-meta-model.md` (documentation)
 
@@ -162,6 +161,5 @@ This model represents a structured approach to organizing knowledge and planning
 
 ---
 
-**Last Updated**: 2025-11-22  
 **Status**: Active  
 **Language**: Hebrew/English bilingual support
