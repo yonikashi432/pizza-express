@@ -1,0 +1,187 @@
+doctype html
+html(lang='he')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title= piyut.title + ' - ' + title
+    style.
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a3a52 0%, #2d5a7b 100%);
+        color: #f0f0f0;
+        min-height: 100vh;
+        direction: rtl;
+        padding: 20px;
+      }
+      
+      .container { max-width: 900px; margin: 0 auto; }
+      
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        border-top: 4px solid #ffd700;
+      }
+      
+      .piyut-container {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 40px;
+        border-radius: 10px;
+        border-left: 8px solid #ffd700;
+      }
+      
+      .piyut-title {
+        font-size: 2em;
+        color: #ffd700;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .piyut-meta {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+      }
+      
+      .meta-item {
+        text-align: center;
+      }
+      
+      .meta-label {
+        color: #aaa;
+        font-size: 0.9em;
+        display: block;
+      }
+      
+      .meta-value {
+        color: #ffd700;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+      
+      .piyut-text {
+        font-size: 1.1em;
+        line-height: 2;
+        color: #e0e0e0;
+        margin: 30px 0;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      
+      .piyut-melody {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(100, 150, 200, 0.2);
+        border-radius: 5px;
+        color: #64b3d5;
+      }
+      
+      .supporters {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+      }
+      
+      .supporters h3 {
+        color: #ffd700;
+        margin-bottom: 15px;
+      }
+      
+      .supporter-item {
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        margin-bottom: 10px;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+      
+      button {
+        background: #ffd700;
+        color: #1a3a52;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      button:hover {
+        background: #ffed4e;
+        transform: translateY(-2px);
+      }
+      
+      .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #ffd700;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      
+      .back-link:hover {
+        color: #ffed4e;
+        text-decoration: underline;
+      }
+
+  body
+    .container
+      a.back-link(href='/piyutim') ← חזור לרשימה
+      
+      .piyut-container
+        .piyut-title= piyut.title
+        
+        .piyut-meta
+          .meta-item
+            span.meta-label ניקוד כולל
+            span.meta-value= piyut.score
+          .meta-item
+            span.meta-label טיר
+            span.meta-value= piyut.tier || 'ללא'
+          .meta-item
+            span.meta-label תומכים
+            span.meta-value= piyut.supporters.length
+          if piyut.melody
+            .meta-item
+              span.meta-label מנגינה
+              span.meta-value= piyut.melody
+        
+        .piyut-text= piyut.text
+        
+        if piyut.supporters.length > 0
+          .supporters
+            h3 תומכים בזמיר זה:
+            each support in piyut.supporters
+              .supporter-item
+                span User 
+                  = support.userId.slice(0, 8)
+                span.score-badge
+                  = support.amount
+                  | ניקוד
+
+        if user
+          .actions
+            form(method='POST', action='/api/piyutim/' + piyut.id + '/support')
+              input(type='hidden', name='amount', value='100')
+              button(type='submit') תמוך בזמיר זה (100 נקודות)
+            form(method='POST', action='/api/piyutim/' + piyut.id + '/support')
+              input(type='hidden', name='amount', value='500')
+              button(type='submit') תמוך חזק (500 נקודות)
