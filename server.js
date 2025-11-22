@@ -9,6 +9,11 @@ const generateId = require('./lib/generate-id');
 var redis = require("redis"),
   client = redis.createClient('6379');
 
+// Handle Redis connection errors so they don't crash the app when Redis is not available.
+client.on('error', function(err) {
+  console.error('Redis error (continuing without Redis):', err && err.message ? err.message : err);
+});
+
 app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
