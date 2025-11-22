@@ -1,0 +1,19 @@
+digraph GoldenRingOmega {
+  rankdir=LR;
+  node [shape=box, style=rounded];
+  steady     [label="phase.steady"];
+  breath     [label="phase.breath"];
+  spark      [label="phase.spark"];
+  collective [label="phase.collective"];
+  clarity    [label="phase.clarity"];
+  hyper      [label="phase.hyper"];
+  divine     [label="phase.divine"];
+  omega      [label="Ω omega_loop", shape=doublecircle, style="bold"];
+
+  steady -> breath; breath -> steady;
+  spark -> steady;
+  collective -> clarity; clarity -> collective;
+  hyper -> divine; divine -> steady;
+  omega -> steady; omega -> divine;
+  {edge [style=dashed,color=gray] spark -> steady; collective -> clarity; clarity -> collective;}
+}

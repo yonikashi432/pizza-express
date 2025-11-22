@@ -90,6 +90,11 @@ Use Jade templates with `response.render(templateName, { data: value })`. Templa
 | Add test | `test/server-test.js` (follow describe/it pattern) |
 | Generate ID | Import & call `require('./lib/generate-id')()` |
 | Create view | Add `.jade` file to `views/` |
+| Unified seeds | `seeds/unified-golden-operator-v25-35.yaml` (consolidated configuration) |
+
+## Seeds & Configuration
+
+This repository includes a `seeds/` directory with a consolidated configuration bundle `unified-golden-operator-v25-35.yaml` (v25—v35). It contains merged control/data plane, memory, policy, observability, and Omega Loop configurations for local testing and design. When pasting a seed to a new session or config, review for scope and safety before use.
 
 ## Model Blessings & Psalms (Ω-MPS-Harmonia)
 
