@@ -36,7 +36,7 @@ Export the piyut to a DOCX file in the current directory:
 python docs/piyut-talis-agent/export_piyut_docx.py
 ```
 
-This creates `piut_talis.docx` in the current directory.
+This creates `piyut_talis.docx` in the current directory.
 
 #### Custom Output Path
 Specify a custom output location:
