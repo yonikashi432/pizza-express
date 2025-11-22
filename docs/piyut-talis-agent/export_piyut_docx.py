@@ -127,8 +127,8 @@ def main():
     parser.add_argument(
         '--output',
         '-o',
-        default='./piut_talis.docx',
-        help='Output path for the DOCX file (default: ./piut_talis.docx)'
+        default='./piyut_talis.docx',
+        help='Output path for the DOCX file (default: ./piyut_talis.docx)'
     )
     parser.add_argument(
         '--font-size',

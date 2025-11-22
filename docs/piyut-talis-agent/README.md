@@ -64,7 +64,7 @@ Export the piyut to a DOCX document.
 
 ```bash
 # Export to DOCX (requires python-docx)
-python docs/piyut-talis-agent/export_piyut_docx.py --output ~/piut_talis.docx
+python docs/piyut-talis-agent/export_piyut_docx.py --output ~/piyut_talis.docx
 ```
 
 ### 3. Embed-in-Codex Mode
