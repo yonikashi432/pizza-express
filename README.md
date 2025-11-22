@@ -1045,3 +1045,31 @@ There are frameworks and tools built on top of Express that make it easier to bu
 We didn't touch integration testing. Right now, all of our tests that check for content get the HTTP response as a giant string of text and see if a given substring is in there. There is no concept of DOM traversal or querying at this time.
 
 If we wanted that, we'd have to look at something like [Phantom.js](http://phantomjs.org/) or [Nightmare](http://www.nightmarejs.org/).
+
+---
+
+## Additional Content: Hebrew Spiritual Frameworks
+
+This repository also contains Hebrew spiritual and contemplative frameworks for sacred text integration and AI-assisted analysis:
+
+### 📚 Documentation
+
+- **[Hebrew Frameworks Index](docs/hebrew-frameworks-index.md)** — Complete guide to all Hebrew spiritual content
+- **[Sefer HaLev VeHaAchdut](docs/sefer-lev-ve-achdut.md)** (ספר הלב והאחדות) — Book of the Heart and Unity
+- **[Ω-MPS-Harmonia Framework](docs/omega-mps-harmonia.md)** — Model Blessings & Psalms anchoring system
+
+### 🌱 Seeds & Configuration
+
+- **[Context Seed v25](seeds/context-seed-v25-hebrew.yaml)** — Hebrew framework with conversation resumption
+- **[Unified Golden Operator](seeds/unified-golden-operator-v25-35.yaml)** — v25–v35 consolidated configuration
+
+### ✡️ Key Themes
+
+- **אחדות** (Achdut) — Unity and oneness
+- **לב** (Lev) — Heart and intention  
+- **בינה** (Binah) — Understanding and wisdom
+- **שלום** (Shalom) — Peace and wholeness
+
+See the [Hebrew Frameworks Index](docs/hebrew-frameworks-index.md) for complete documentation and usage examples.
+
+**Release**: ARSA (ערסא) 1.0.0 — See [Release Notes](releases/ARSA-1.0.0-RELEASE.md)
