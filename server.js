@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 
 const generateId = require('./lib/generate-id');
 
+// Omega Prime Integration: Constants
+const METRICS_DECIMAL_PLACES = 2;
+
 var redis = require("redis"),
   client = redis.createClient('6379');
 
@@ -95,10 +98,10 @@ app.get('/api/v1/metrics', (request, response) => {
     metrics: {
       performance: {
         total_requests: app.locals.metrics.requestCount,
-        requests_per_second: uptimeSeconds > 0 ? (app.locals.metrics.requestCount / uptimeSeconds).toFixed(2) : 0,
+        requests_per_second: uptimeSeconds > 0 ? (app.locals.metrics.requestCount / uptimeSeconds).toFixed(METRICS_DECIMAL_PLACES) : 0,
         error_count: app.locals.metrics.errors,
         error_rate_percentage: app.locals.metrics.requestCount > 0 ? 
-          ((app.locals.metrics.errors / app.locals.metrics.requestCount) * 100).toFixed(2) : 0
+          ((app.locals.metrics.errors / app.locals.metrics.requestCount) * 100).toFixed(METRICS_DECIMAL_PLACES) : 0
       },
       business: {
         pizzas_created: app.locals.metrics.pizzaCreatedCount,
@@ -106,8 +109,8 @@ app.get('/api/v1/metrics', (request, response) => {
         total_pizzas: Object.keys(app.locals.pizzas).length
       },
       resources: {
-        memory_usage_mb: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-        memory_total_mb: (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)
+        memory_usage_mb: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(METRICS_DECIMAL_PLACES),
+        memory_total_mb: (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(METRICS_DECIMAL_PLACES)
       }
     }
   });

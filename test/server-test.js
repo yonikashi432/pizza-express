@@ -124,7 +124,7 @@ describe('Server', () => {
 
       it('should return health status', (done) => {
         this.request.get('/api/v1/health', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           assert.equal(response.statusCode, 200);
           done();
         });
@@ -132,7 +132,7 @@ describe('Server', () => {
 
       it('should return JSON with operational status', (done) => {
         this.request.get('/api/v1/health', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           var data = JSON.parse(response.body);
           assert.equal(data.status, 'operational');
           assert.equal(data.system, 'Pizza Express');
@@ -148,7 +148,7 @@ describe('Server', () => {
 
       it('should return metrics', (done) => {
         this.request.get('/api/v1/metrics', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           assert.equal(response.statusCode, 200);
           done();
         });
@@ -156,7 +156,7 @@ describe('Server', () => {
 
       it('should return JSON with metrics data', (done) => {
         this.request.get('/api/v1/metrics', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           var data = JSON.parse(response.body);
           assert.equal(data.system, 'Pizza Express');
           assert.equal(data.omega_prime_version, 'v25-35');
@@ -174,7 +174,7 @@ describe('Server', () => {
 
       it('should return status', (done) => {
         this.request.get('/api/v1/status', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           assert.equal(response.statusCode, 200);
           done();
         });
@@ -182,7 +182,7 @@ describe('Server', () => {
 
       it('should return JSON with status information', (done) => {
         this.request.get('/api/v1/status', (error, response) => {
-          if (error) { done(error); }
+          if (error) { return done(error); }
           var data = JSON.parse(response.body);
           assert.equal(data.system, 'Pizza Express');
           assert.equal(data.omega_prime_integration, true);
