@@ -50,6 +50,7 @@ app.get('/piyutim/:id', (request, response) => {
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
+    // TODO: Replace with proper logging library (Winston/Bunyan) for production
     console.log(`${app.locals.title} is running on ${app.get('port')}.`);
     console.log(`🕯️ ה' אחד ושמו אחד - The Lord is One and His Name is One`);
   });
