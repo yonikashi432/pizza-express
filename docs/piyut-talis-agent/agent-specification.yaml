@@ -81,7 +81,7 @@ boundaries:
 
 docx_export:
   default_font_size_pt: 16
-  output_default_path: "/mnt/data/piyut_talis.docx"
+  output_default_path: "./piyut_talis.docx"
   layout_notes: >
     כל שורה בפסקה נפרדת, גופן אחיד, ללא עיבוד נוסף,
     כדי לשמור על צורת הפיוט.

@@ -15,7 +15,6 @@ Requirements:
 
 import argparse
 import os
-from pathlib import Path
 
 try:
     from docx import Document
