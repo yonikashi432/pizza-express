@@ -1,0 +1,2 @@
+# Python dependencies for Piyut-Talis-Agent DOCX export functionality
+python-docx>=1.0.0

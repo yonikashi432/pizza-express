@@ -1045,3 +1045,17 @@ There are frameworks and tools built on top of Express that make it easier to bu
 We didn't touch integration testing. Right now, all of our tests that check for content get the HTTP response as a giant string of text and see if a given substring is in there. There is no concept of DOM traversal or querying at this time.
 
 If we wanted that, we'd have to look at something like [Phantom.js](http://phantomjs.org/) or [Nightmare](http://www.nightmarejs.org/).
+
+## Additional Documentation
+
+### Piyut-Talis-Agent
+
+This repository includes documentation for the **Piyut-Talis-Agent** (סוכן פיוט — בשם השם ויונתן קאשי), a meta-planning and sacred documentation agent for managing liturgical texts. See the [Piyut-Talis-Agent documentation](docs/piyut-talis-agent/README.md) for details.
+
+The agent provides:
+- Preservation of canonical Hebrew liturgical texts
+- Export to DOCX format with proper UTF-8 encoding
+- Integration with unified model systems
+- Sacred text handling guidelines
+
+For usage examples, see [USAGE.md](docs/piyut-talis-agent/USAGE.md).
