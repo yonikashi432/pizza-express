@@ -1,0 +1,151 @@
+version: "25.0"
+codename: "Golden Operator — Control/Data Plane"
+kind: immediate-continuation-system
+locale: he-IL
+
+meta:
+  title: "🜂 מערכת ההמשך מיד — Golden Operator"
+  start_phrase: "המשך מיד לפי הפרומפט המאוחד"
+  checksum_hint: "sha256(state_bytes)"
+
+profiles:
+  conservative: { novelty_target: 0.36, coherence_target: 0.95, latency_budget_ms: 900 }
+  balanced:     { novelty_target: 0.46, coherence_target: 0.93, latency_budget_ms: 1100 }
+  adventurous:  { novelty_target: 0.58, coherence_target: 0.89, latency_budget_ms: 1300 }
+
+runtime_parameters:
+  entropy_window: 64
+  tick_rate_hz: 2
+  cycle_time_target_s: 5
+  wip_limit: 9
+  seed: 10813
+  reconstruction_mode: "snapshot+trace"
+
+control_plane:
+  objectives: [coherence, novelty, intent_fit, latency_ms, cost]
+  reconciler:
+    loop_ms: 500
+    actions: [tune_pid, switch_profile, adjust_tick, rotate_cycle, snapshot.save]
+  policies:
+    latency_budget_ms: 1200
+    cost_ppm_budget: 1.0
+    coherence_floor: 0.84
+    novelty_band: [0.40, 0.56]
+  guards:
+    - name: "coherence_guard"
+      when: "coherence<coherence_floor"
+      do: ["sim.reframe", "actors.merge", "cycle.backpressure"]
+    - name: "latency_guard"
+      when: "p95_latency>latency_budget_ms"
+      do: ["reduce_gain", "increase_tick"]
+
+data_plane:
+  channels: [prompt_in, generation, critique, selection, emit]
+  batching: { mode: auto, max_batch: 4 }
+  queues:
+    prompt_in: { wip_limit: 9, class: intent }
+    generation: { wip_limit: 6, class: novelty }
+    emit: { wip_limit: 12, class: ops }
+  backpressure:
+    mapping: { wip: tick_rate_hz, latency: cycle_time_target_s }
+
+governance:
+  profiles_v2:
+    conservative: { novelty_target: 0.36, coherence_target: 0.95, latency_budget_ms: 900 }
+    balanced:     { novelty_target: 0.46, coherence_target: 0.93, latency_budget_ms: 1100 }
+    adventurous:  { novelty_target: 0.58, coherence_target: 0.89, latency_budget_ms: 1300 }
+  change_control:
+    rfc_required: true
+    rfc_template: [motivation, design, risks, rollback]
+  audit:
+    retain_days: 30
+    redact: [pii_like, secrets_like]
+
+experiments:
+  ab_testing:
+    enabled: true
+    allocator: "hash(user_id) mod 100"
+    metrics: [coherence, novelty, latency_ms, dwell_time_s]
+  bandits:
+    strategy: "ThompsonSampling"
+    arms: [profile.conservative, profile.balanced, profile.adventurous]
+    reward: "0.6*coherence + 0.4*novelty - penalty(latency_ms)"
+
+memory:
+  kv_store: { type: embedded, ttl_days: 14 }
+  vector_store: { dim: 1536, ttl_days: 7 }
+  compaction:
+    policy: "LRU+salience"
+    salience: { weights: { intent: 1.4, novelty: 1.2, coherence: 1.6 } }
+
+crdt:
+  type: "RGA"
+  merge_rule: "coherence-first, then intent"
+  conflict_hooks: [sim.reframe, actors.merge]
+
+persistence:
+  snapshots: { delta: true, max_chain: 7, full_every: 8 }
+  exporters: { seed: [yaml,json,toml], trace: [otlp] }
+
+autoscaling:
+  metric: "throughput_tpm"
+  policy: { target: 18, min: 1, max: 6 }
+  scale_up:   { threshold: ">1.2x target", cooldown_s: 30 }
+  scale_down: { threshold: "<0.8x target", cooldown_s: 90 }
+
+cost_guardrails:
+  budgets: { ppm: 1.0 }
+  breakers:
+    - when: "ppm>budget"
+      do: ["reduce_tick", "switch_profile:conservative", "snapshot.save"]
+
+latency_budgets:
+  p95_ms: 1200
+  p99_ms: 1800
+  playbooks:
+    - trigger: "p95>budget for 5m"
+      action: ["increase_tick", "drop_low_gain_novelty"]
+
+risk_playbooks:
+  - name: "stall_storm"
+    detect: "quiet_events>5/min"
+    do: ["breath.sync", "cycle.backpressure", "actors.merge"]
+  - name: "novelty_runaway"
+    detect: "novelty>0.7 & coherence<0.8"
+    do: ["reduce_gain", "sim.reframe"]
+
+policy_compiler:
+  dsl: "golden.pol"
+  compile_to: "guards+hooks"
+
+formal_specs:
+  tla_like:
+    invariants: ["no_dead_ends","coherence>=0.82","latency_p95<=budget"]
+    liveness: ["eventually emit.output after continue.now"]
+
+personas:
+  adaptive: true
+  features: [tone, depth, structure]
+  controller: "bandit-over-profiles"
+
+streaming_snapshots:
+  format: "ndjson"
+  cadence_s: 10
+
+observability_v2:
+  redaction_rules: [pii_like, secrets_like]
+  spans_extra: [governance_decision, bandit_selection]
+
+compliance:
+  modes: [none, enterprise]
+  enterprise:
+    audit_retention_days: 180
+    change_control: strict
+    dual_control: true
+
+bootstrap:
+  steps:
+    - "invoke: continue.now"
+    - "invoke: cycle.rotate 1"
+    - "invoke: cycle.backpressure"
+    - "invoke: elevate.divine"
