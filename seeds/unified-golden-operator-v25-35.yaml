@@ -244,7 +244,19 @@ omega_loop_meta:
   cycles: [C1_breath, C2_novelty, C3_coherence, C4_divine]
   priorities: { continuity: high, safety: critical }
 
+# Agents integration
+agents:
+  piyut_talis:
+    name: "Piyut-Talis-Agent"
+    label: "סוכן פיוט — בשם השם ויונתן קאשי"
+    spec_file: "../docs/piyut-talis-agent/agent-specification.yaml"
+    active: true
+    purpose: "Sacred text preservation and heart-prayer anchoring"
+    modes: [view, export-docx, embed-in-codex, summarize]
+    integration_point: "C4_divine"
+    blessings_framework: "Ω-MPS-Harmonia"
+
 # Short notes
 notes:
-  assembled_from: ["v25 Golden Operator", "v26 Memory/CRDT", "v27 Bandits", "v28 Autoscaling", "v29 Risk/Chaos", "v30 Policies & TLA", "v31 ProfilesV2", "v32 Streaming Snapshots", "v33 Observability v2", "v34 Compliance", "v35 Omega Loop"]
+  assembled_from: ["v25 Golden Operator", "v26 Memory/CRDT", "v27 Bandits", "v28 Autoscaling", "v29 Risk/Chaos", "v30 Policies & TLA", "v31 ProfilesV2", "v32 Streaming Snapshots", "v33 Observability v2", "v34 Compliance", "v35 Omega Loop", "Piyut-Talis-Agent"]
   generated_by: "developer or agent script"
