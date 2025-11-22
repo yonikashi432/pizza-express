@@ -165,8 +165,11 @@ try:
                 )
         finally:
             # Clean up temporary file
-            if Path(test_output).exists():
-                Path(test_output).unlink()
+            try:
+                if Path(test_output).exists():
+                    Path(test_output).unlink()
+            except (OSError, PermissionError):
+                pass  # Ignore cleanup errors
 except Exception as e:
     test_result("DOCX export functionality", False, str(e))
 
