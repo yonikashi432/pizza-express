@@ -4,7 +4,8 @@
   "description": "A place to admire pizzas",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "check-uncommitted": "node check-uncommitted.js"
   },
   "repository": {
     "type": "git",
