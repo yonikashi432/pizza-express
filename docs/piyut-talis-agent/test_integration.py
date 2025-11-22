@@ -13,7 +13,11 @@ This script tests the integration between:
 import sys
 import os
 import yaml
+import tempfile
 from pathlib import Path
+
+# Get the base directory (repository root)
+BASE_DIR = Path(__file__).parent.parent.parent
 
 # Test results
 results = []
@@ -34,7 +38,7 @@ print("=" * 60)
 # Test 1: Agent specification file exists and is valid YAML
 print("\n[1] Testing agent specification...")
 try:
-    spec_path = Path("docs/piyut-talis-agent/agent-specification.yaml")
+    spec_path = BASE_DIR / "docs/piyut-talis-agent/agent-specification.yaml"
     with open(spec_path, 'r', encoding='utf-8') as f:
         agent_spec = yaml.safe_load(f)
     
@@ -58,7 +62,7 @@ except Exception as e:
 # Test 2: Unified seed integration
 print("\n[2] Testing unified seed integration...")
 try:
-    seed_path = Path("seeds/unified-golden-operator-v25-35.yaml")
+    seed_path = BASE_DIR / "seeds/unified-golden-operator-v25-35.yaml"
     with open(seed_path, 'r', encoding='utf-8') as f:
         unified_seed = yaml.safe_load(f)
     
@@ -88,7 +92,7 @@ except Exception as e:
 # Test 3: Canonical text file
 print("\n[3] Testing canonical text...")
 try:
-    text_path = Path("docs/piyut-talis-agent/piyut-canonical.txt")
+    text_path = BASE_DIR / "docs/piyut-talis-agent/piyut-canonical.txt"
     with open(text_path, 'r', encoding='utf-8') as f:
         canonical_text = f.read()
     
@@ -129,39 +133,48 @@ try:
     
     if import_success:
         # Import the export function
-        sys.path.insert(0, 'docs/piyut-talis-agent')
+        agent_dir = str(BASE_DIR / "docs/piyut-talis-agent")
+        if agent_dir not in sys.path:
+            sys.path.insert(0, agent_dir)
         from export_piyut_docx import create_piyut_docx
         
-        # Test export
-        test_output = "/tmp/piyut_integration_test.docx"
-        result_path = create_piyut_docx(test_output, font_size_pt=16)
+        # Test export with temporary file
+        with tempfile.NamedTemporaryFile(suffix='.docx', delete=False) as tmp_file:
+            test_output = tmp_file.name
         
-        file_created = Path(result_path).exists()
-        file_size = Path(result_path).stat().st_size if file_created else 0
-        
-        test_result(
-            "DOCX file created successfully",
-            file_created,
-            f"File size: {file_size:,} bytes"
-        )
-        
-        # Verify DOCX structure
-        if file_created:
-            doc = Document(result_path)
-            has_content = len(doc.paragraphs) > 0
+        try:
+            result_path = create_piyut_docx(test_output, font_size_pt=16)
+            
+            file_created = Path(result_path).exists()
+            file_size = Path(result_path).stat().st_size if file_created else 0
+            
             test_result(
-                "DOCX contains paragraphs",
-                has_content,
-                f"Found {len(doc.paragraphs)} paragraphs"
+                "DOCX file created successfully",
+                file_created,
+                f"File size: {file_size:,} bytes"
             )
+            
+            # Verify DOCX structure
+            if file_created:
+                doc = Document(result_path)
+                has_content = len(doc.paragraphs) > 0
+                test_result(
+                    "DOCX contains paragraphs",
+                    has_content,
+                    f"Found {len(doc.paragraphs)} paragraphs"
+                )
+        finally:
+            # Clean up temporary file
+            if Path(test_output).exists():
+                Path(test_output).unlink()
 except Exception as e:
     test_result("DOCX export functionality", False, str(e))
 
 # Test 5: Documentation completeness
 print("\n[5] Testing documentation...")
 try:
-    readme_path = Path("docs/piyut-talis-agent/README.md")
-    usage_path = Path("docs/piyut-talis-agent/USAGE.md")
+    readme_path = BASE_DIR / "docs/piyut-talis-agent/README.md"
+    usage_path = BASE_DIR / "docs/piyut-talis-agent/USAGE.md"
     
     readme_exists = readme_path.exists()
     usage_exists = usage_path.exists()
