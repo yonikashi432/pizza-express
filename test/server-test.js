@@ -64,7 +64,7 @@ describe('Server', () => {
       });
     });
 
-    it('should receive and restore data', (done) => {
+    it('should receive and store data', (done) => {
       var payload = { pizza: fixtures.validPizza };
 
       this.request.post('/pizzas', { form: payload }, (error, response) => {
