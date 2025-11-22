@@ -2,6 +2,17 @@
 
 **Nota bene:** You do not need to clone this repository. You will be building this application from first principles. This repository does, however, contain the final result.
 
+## Omega Prime Integration
+
+Pizza Express is integrated with the **Omega Prime (Ω Prime) operational intelligence system v25-35**. This provides health monitoring, telemetry, and operational metrics.
+
+**Quick Start**:
+- Health Check: `GET /api/v1/health`
+- Metrics: `GET /api/v1/metrics`
+- Status: `GET /api/v1/status`
+
+See [OMEGA_PRIME_INTEGRATION.md](OMEGA_PRIME_INTEGRATION.md) for complete integration documentation.
+
 ## Preamble
 
 In this tutorial, we're going to build and test an Express application from the ground up—using what you would primarily think of in Rails as controller tests. The goal of the this tutorial is to get super deep into a very small set of things so that you understand how they work.

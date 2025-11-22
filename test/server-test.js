@@ -118,4 +118,83 @@ describe('Server', () => {
 
   });
 
+  describe('Omega Prime Integration', () => {
+
+    describe('GET /api/v1/health', () => {
+
+      it('should return health status', (done) => {
+        this.request.get('/api/v1/health', (error, response) => {
+          if (error) { return done(error); }
+          assert.equal(response.statusCode, 200);
+          done();
+        });
+      });
+
+      it('should return JSON with operational status', (done) => {
+        this.request.get('/api/v1/health', (error, response) => {
+          if (error) { return done(error); }
+          var data = JSON.parse(response.body);
+          assert.equal(data.status, 'operational');
+          assert.equal(data.system, 'Pizza Express');
+          assert.equal(data.omega_prime_version, 'v25-35');
+          assert(data.uptime_ms > 0);
+          done();
+        });
+      });
+
+    });
+
+    describe('GET /api/v1/metrics', () => {
+
+      it('should return metrics', (done) => {
+        this.request.get('/api/v1/metrics', (error, response) => {
+          if (error) { return done(error); }
+          assert.equal(response.statusCode, 200);
+          done();
+        });
+      });
+
+      it('should return JSON with metrics data', (done) => {
+        this.request.get('/api/v1/metrics', (error, response) => {
+          if (error) { return done(error); }
+          var data = JSON.parse(response.body);
+          assert.equal(data.system, 'Pizza Express');
+          assert.equal(data.omega_prime_version, 'v25-35');
+          assert(data.metrics);
+          assert(data.metrics.performance);
+          assert(data.metrics.business);
+          assert(data.metrics.resources);
+          done();
+        });
+      });
+
+    });
+
+    describe('GET /api/v1/status', () => {
+
+      it('should return status', (done) => {
+        this.request.get('/api/v1/status', (error, response) => {
+          if (error) { return done(error); }
+          assert.equal(response.statusCode, 200);
+          done();
+        });
+      });
+
+      it('should return JSON with status information', (done) => {
+        this.request.get('/api/v1/status', (error, response) => {
+          if (error) { return done(error); }
+          var data = JSON.parse(response.body);
+          assert.equal(data.system, 'Pizza Express');
+          assert.equal(data.omega_prime_integration, true);
+          assert.equal(data.version, 'v25-35');
+          assert.equal(data.status, 'operational');
+          assert.equal(data.mode, 'full-cascade');
+          done();
+        });
+      });
+
+    });
+
+  });
+
 });
