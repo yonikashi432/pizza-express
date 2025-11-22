@@ -6,6 +6,53 @@
 
 In this tutorial, we're going to build and test an Express application from the ground up—using what you would primarily think of in Rails as controller tests. The goal of the this tutorial is to get super deep into a very small set of things so that you understand how they work.
 
+## Python Story Generator (Optional)
+
+This repository now also includes a small Python helper script `generate_story.py` that demonstrates calling the OpenAI Chat Completions API (or producing a mocked response when offline).
+
+### Setup
+
+1. Install Python dependencies:
+  ```bash
+  pip install -r requirements.txt
+  ```
+2. Provide an API key (if you want real responses):
+  ```bash
+  export OPENAI_API_KEY="sk-..."
+  ```
+  Optionally create a `.env` file:
+  ```bash
+  echo 'OPENAI_API_KEY="sk-..."' > .env
+  ```
+
+### Usage
+
+Generate a short story (real API call):
+```bash
+python3 generate_story.py --prompt "Write a whimsical pizza tale." --max-tokens 40
+```
+
+Offline / mocked mode (no API key required, useful for quota errors):
+```bash
+python3 generate_story.py --offline --prompt "Write a whimsical pizza tale."
+```
+
+Quota fallback: If the API returns a quota (429/insufficient_quota) error, the script automatically prints a mocked story.
+
+Environment file loading: If `.env` exists (or a custom path via `--env-file`), it is loaded automatically when the script runs.
+
+Available flags:
+```
+--model <name>          Model to use (default gpt-3.5-turbo)
+--prompt <text>         Custom prompt text
+--max-tokens <int>      Max tokens for completion (default 30)
+--temperature <float>   Sampling temperature (default 0.7)
+--offline               Force mocked response (no network call)
+--env-file <path>       Load environment variables from given file (default .env)
+```
+
+If you do not want the Python helper, simply remove `generate_story.py` and `requirements.txt`.
+
 We're going to keep the use of external tools and libraries to a minimum. As a result, it may get a bit tedious at times, but at the end, you'll have an understanding of how the sausage gets made, so to speak.
 
 ## Prerequisites
