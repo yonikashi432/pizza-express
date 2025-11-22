@@ -6,6 +6,7 @@ Files included in the `seeds/` directory:
 - `unified-golden-operator-v25-35.yaml` — single consolidated seed
 - `golden-omega.mmd` — Mermaid diagram of the Omega loop and state transitions
 - `golden-omega.dot` — Graphviz DOT diagram of the ring/circle model
+- `../docs/sefer-lev-ve-achdut.md` — Optional spiritual text "Sefer HaLev VeHaAchdut" (book of heart and unity)
 
 Purpose:
 - Provide a single YAML seed to bootstrap local deployments or design templates
