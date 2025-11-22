@@ -1,0 +1,100 @@
+doctype html
+html(lang="he")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title + ' - ' + (piyut ? piyut.name : 'פיוט')
+    style.
+      body {
+        font-family: 'Times New Roman', serif;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: #f5f5dc;
+        margin: 0;
+        padding: 20px;
+        direction: rtl;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid gold;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+      h1, h2 {
+        color: gold;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      .magen-david {
+        text-align: center;
+        font-size: 48px;
+        color: gold;
+        margin: 20px 0;
+      }
+      .piyut-content {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+      .metadata {
+        border-top: 1px solid gold;
+        padding-top: 15px;
+        margin-top: 15px;
+        font-size: 0.9em;
+      }
+      .points-display {
+        background: linear-gradient(90deg, gold, #ffd700);
+        color: #1e3c72;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: rgba(255, 215, 0, 0.2);
+        border: 1px solid gold;
+        border-radius: 5px;
+        color: gold;
+        text-decoration: none;
+      }
+      .back-link:hover {
+        background: rgba(255, 215, 0, 0.4);
+      }
+  body
+    .container
+      .magen-david ✡
+      h1= title
+      if piyut
+        h2= piyut.name
+        .points-display
+          | נקודות שפע: #{piyut.points || 0}
+        .piyut-content= piyut.content || piyut.text || ''
+        .metadata
+          if piyut.author
+            p
+              strong מחבר: 
+              = piyut.author
+          if piyut.rhythm
+            p
+              strong מנגינה: 
+              = piyut.rhythm
+          if piyut.createdAt
+            p
+              strong נוצר בתאריך: 
+              = new Date(piyut.createdAt).toLocaleDateString('he-IL')
+          if piyut.gematria
+            p
+              strong גימטריה: 
+              = piyut.gematria
+        a.back-link(href='/') חזרה לדף הראשי
+      else
+        p הפיוט לא נמצא

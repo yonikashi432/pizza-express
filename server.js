@@ -6,50 +6,52 @@ const bodyParser = require('body-parser');
 
 const generateId = require('./lib/generate-id');
 
-var redis = require("redis"),
-  client = redis.createClient('6379');
-
 app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
 
-app.locals.title = 'Pizza Express'
-app.locals.pizzas = {};
+app.locals.title = 'זמירות דרדרה׳ לי׳ - Zemirot Derdareli'
+app.locals.piyutim = {}; // Hymns storage
+app.locals.users = {}; // Users storage
+app.locals.points = {}; // User points tracking
 
 app.get('/', (request, response) => {
-  response.render('index');
+  response.render('index', { piyutim: app.locals.piyutim });
 });
 
-app.post('/pizzas', (request, response) => {
-  if (!request.body.pizza) { return response.sendStatus(400); }
+// Create a new piyut (hymn)
+app.post('/piyutim', (request, response) => {
+  if (!request.body.piyut) { return response.sendStatus(400); }
 
   var id = generateId();
-  var pizza = request.body.pizza;
-  pizza.id = id;
+  var piyut = request.body.piyut;
+  piyut.id = id;
+  piyut.createdAt = new Date().toISOString();
+  piyut.points = 0; // Initial points
+  piyut.supporters = []; // List of users who supported this piyut
 
-  app.locals.pizzas[id] = pizza;
+  app.locals.piyutim[id] = piyut;
 
-  response.redirect('/pizzas/' + id);
+  response.redirect('/piyutim/' + id);
 });
 
-app.get('/pizzas/:id', (request, response) => {
-  var pizza = app.locals.pizzas[request.params.id];
+// View a specific piyut (hymn)
+app.get('/piyutim/:id', (request, response) => {
+  var piyut = app.locals.piyutim[request.params.id];
 
-  response.render('pizza', { pizza: pizza });
+  if (!piyut) {
+    return response.status(404).send('Piyut not found');
+  }
+
+  response.render('piyut', { piyut: piyut });
 });
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
     console.log(`${app.locals.title} is running on ${app.get('port')}.`);
-    console.log(`putting key 'somekey' with value in redis and getting it: `);
-
-    client.set("somekey", "successful test");
-    client.get("somekey", function(err, reply) {
-      // reply is null when the key is missing
-      console.log(reply);
-    });
+    console.log(`🕯️ ה' אחד ושמו אחד - The Lord is One and His Name is One`);
   });
 }
 

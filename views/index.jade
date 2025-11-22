@@ -1,16 +1,165 @@
 doctype html
-html(lang="en")
+html(lang="he")
   head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title= title
+    style.
+      body {
+        font-family: 'Times New Roman', serif;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: #f5f5dc;
+        margin: 0;
+        padding: 20px;
+        direction: rtl;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        border: 3px solid gold;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+      }
+      h1 {
+        color: gold;
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      }
+      .subtitle {
+        text-align: center;
+        color: #b8d4ff;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        font-style: italic;
+      }
+      .magen-david {
+        text-align: center;
+        font-size: 72px;
+        color: gold;
+        margin: 20px 0;
+      }
+      .megillah {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        margin: 30px 0;
+        line-height: 2;
+        text-align: center;
+        font-size: 1.1em;
+      }
+      .section-title {
+        color: gold;
+        font-size: 1.5em;
+        margin: 30px 0 15px;
+        text-align: center;
+      }
+      form {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid gold;
+        margin: 20px 0;
+      }
+      input, textarea {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: 1px solid gold;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #1e3c72;
+        font-family: 'Times New Roman', serif;
+        box-sizing: border-box;
+      }
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+      input[type="submit"] {
+        background: linear-gradient(90deg, gold, #ffd700);
+        color: #1e3c72;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.1em;
+        border: 2px solid gold;
+      }
+      input[type="submit"]:hover {
+        background: linear-gradient(90deg, #ffd700, #ffed4e);
+        box-shadow: 0 0 15px gold;
+      }
+      .piyutim-list {
+        margin-top: 30px;
+      }
+      .piyut-item {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border-right: 4px solid gold;
+      }
+      .piyut-item a {
+        color: gold;
+        text-decoration: none;
+        font-size: 1.2em;
+        display: block;
+      }
+      .piyut-item a:hover {
+        color: #ffd700;
+        text-shadow: 0 0 10px gold;
+      }
+      .piyut-meta {
+        color: #b8d4ff;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+      .blessing {
+        text-align: center;
+        color: #b8d4ff;
+        font-style: italic;
+        margin: 20px 0;
+        padding: 15px;
+        border-top: 1px solid rgba(255, 215, 0, 0.3);
+        border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+      }
   body
-    h1= title
-    form(method="post", action="/pizzas")
-      input(type="text", name="pizza[name]", placeholder="title")
-      input(type="text", name="pizza[toppings][]", placeholder="topping")
-      input(type="text", name="pizza[toppings][]", placeholder="topping")
-      input(type="submit", value="Submit")
-    hr
-    each pizza in pizzas
-      p
-        a(href='/pizzas/' + pizza.id) #{pizza.name}
+    .container
+      .magen-david ✡
+      h1= title
+      .subtitle ספר קודש של פיוטים וזמירות
+      
+      .megillah
+        p
+          strong 🕯️ פִּתְחָהּ – שַׁעַר הָאוֹר
+        p בְּשֵׁם ה׳ אֱלֹהֵי הָעוֹלָמִים
+        p.blessing "ה׳ אוֹרִי וְיִשְׁעִי" - תהלים כ״ז
+      
+      h2.section-title ✨ הוסף פיוט חדש
+      form(method="post", action="/piyutim")
+        input(type="text", name="piyut[name]", placeholder="שם הפיוט", required)
+        input(type="text", name="piyut[author]", placeholder="שם המחבר")
+        textarea(name="piyut[content]", placeholder="תוכן הפיוט...", required)
+        input(type="text", name="piyut[rhythm]", placeholder="מנגינה / קצב")
+        input(type="number", name="piyut[gematria]", placeholder="גימטריה")
+        input(type="submit", value="פרסם פיוט")
+      
+      if piyutim && Object.keys(piyutim).length > 0
+        h2.section-title 📜 פיוטים קיימים
+        .piyutim-list
+          each piyut in Object.values(piyutim).reverse()
+            .piyut-item
+              a(href='/piyutim/' + piyut.id)= piyut.name
+              .piyut-meta
+                if piyut.author
+                  span מאת: #{piyut.author} • 
+                span נקודות: #{piyut.points || 0}
+      
+      .blessing
+        p "ה׳ יְבָרֵךְ אֶת עַמּוֹ בַשָּׁלוֹם" - תהלים כ״ט
+
       
