@@ -1,27 +1,32 @@
 {
-  "name": "pizza-express",
-  "version": "1.0.0",
-  "description": "A place to admire pizzas",
+  "name": "zemirot-derdareli",
+  "version": "0.1.0",
+  "description": "זמירות דרדרה׳ לי׳ - A spiritual platform for sharing and discovering sacred hymns (piyutim)",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/turingschool-examples/pizza-express.git"
+    "url": "git+https://github.com/yonikashi432/pizza-express.git"
   },
   "keywords": [
     "express",
-    "pizza",
-    "yum",
-    "cassarole"
+    "hymns",
+    "piyutim",
+    "zemirot",
+    "spiritual",
+    "kabbalah",
+    "jewish",
+    "sacred-music"
   ],
-  "author": "Steve Kinney",
+  "author": "Yonatan Kashi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/turingschool-examples/pizza-express/issues"
+    "url": "https://github.com/yonikashi432/pizza-express/issues"
   },
-  "homepage": "https://github.com/turingschool-examples/pizza-express#readme",
+  "homepage": "https://github.com/yonikashi432/pizza-express#readme",
   "dependencies": {
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
